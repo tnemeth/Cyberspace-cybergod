@@ -1,0 +1,201 @@
+/**
+ *  \file  0config.h
+ *  \brief Defines for generic application configuration.
+ */
+
+/*****************************************************************************
+ *                                                                           *
+ * DO NOT MODIFY IT UNLESS YOU KNOW WHAT YOU DO.                             *
+ * AUTOMATICALLY CREATED BY MAKE.                                            *
+ *                                                                           *
+ *****************************************************************************
+ */
+
+/*!
+ * \mainpage General overview
+ *
+ * \htmlonly
+ * <center>
+ *   <br>
+ *   <img src="logo.jpg" border="0" alt="BETAtech">
+ *   <br><br><br>
+ *   <table border="0" class="LAITypo" cellspacing="1">
+ *     <tr><td colspan="3">BETAtech</td></tr>
+ *     <tr>
+ *       <td>15, rue Apollo</td>
+ *       <td>31240 L'Union</td><td>France</td>
+ *     </tr>
+ *     <tr><td colspan="3"><br></td></tr>
+ *     <tr>
+ *       <td>Tel : +33 (0)5 34 30 40 00</td>
+ *       <td>&nbsp;</td>
+ *       <td>Fax : +33 (0)5 34 30 10 47</td>
+ *     </tr>
+ *     <tr><td colspan="3">SIRET 392315206 00046</td></tr>
+ *   </table>
+ * \endhtmlonly
+ * <br><br>
+ * \link start Quick start\endlink
+ * \htmlonly
+ * </center>
+ * \endhtmlonly
+ *
+ *
+ * ##DOCUMENTATION##
+ *
+ */
+
+/*!
+ * \defgroup start Quick start
+ *
+ * \section install Installation
+ * In order to install <b>#PROGRAM#</b>, you first need to compile it:
+ * \code
+ * $ make
+ * \endcode
+ *
+ * Then you can install it:
+ * \code
+ * $ make install-strip
+ * \endcode
+ *
+ * You can also generate the associated documentation by typing:
+ * \code
+ * $ make doc
+ * \endcode
+ *
+ * If you want to debug the output of the program, type the following commands:
+ * \code
+ * $ make clean
+ * $ make DEBUG_LEVEL=1
+ * \endcode
+ *
+ * For more information about the make command targets, type:
+ * \code
+ * $ make help
+ * \endcode
+ *
+ *
+ * \section usage Usage
+ * \code
+ * $ ./#PROGRAM# OPTIONS
+ * \endcode
+ */
+
+
+#ifndef GENERIC_CONFIG_H
+#define GENERIC_CONFIG_H
+
+
+/**
+ *  \defgroup buildinfo General build information constants
+ *  @{
+ */
+/*! Defines the package's name. */
+#define PACKAGE "#PACKAGE#"
+
+/*! Defines the executable program's name. */
+#define PROGRAM "#PROGRAM#"
+
+/*! Defines the package's version. */
+#define VERSION "#VERSION#"
+
+/*! Defines the authors' names. */
+#define AUTHORS  #AUTHORS#
+
+
+/*! Defines the OS type for which it has been compiled
+ * (Unknown for documentation).
+ */
+#if defined(WIN32)||defined(__CYGWIN32__)
+#  define OS_Win32
+#elif defined(linux)
+#  define OS_Linux
+#else
+#  define OS_Unknown
+#endif
+
+/*! Defines the architecture for which it has been compiled
+ *  (Unknown for documentation).
+ */
+#ifdef __arm__
+#  define ARCH_ARM
+#elif defined(i386)
+#  define ARCH_x86
+#else
+#  define ARCH_Unknown
+#endif
+
+/*! Defines the OS type for which it has been compiled as a string. */
+#if defined(WIN32)||defined(__CYGWIN32__)
+#  define OSTYPE     "Win32"
+#elif defined(linux)
+#  define OSTYPE     "Linux"
+#else
+#  define OSTYPE     "Unknown"
+#endif
+
+/*! Defines the architecture for which it has been compiled as a string. */
+#ifdef __arm__
+#  define ARCH     "ARM"
+#elif defined(i386)
+#  define ARCH     "x86"
+#else
+#  define ARCH     "Unknown"
+#endif
+
+/** @} */
+
+
+/**
+ *  \defgroup stddef Standard and mathematical constant defines
+ *  @{
+ */
+#ifndef TRUE
+
+/*! Defines the standard TRUE constant. */
+#  define TRUE  1
+
+/*! Defines the standard FALSE constant. */
+#  define FALSE 0
+
+#endif
+
+
+/*! Get the minimum between 2 values. */
+#define min(x, y) ({             \
+        typeof(x) _x = (x);     \
+        typeof(y) _y = (y);     \
+        (void) (&_x == &_y);    \
+        _x < _y ? _x : _y; })
+
+
+/*! Get the maximum between 2 values. */
+#define max(x, y) ({             \
+        typeof(x) _x = (x);     \
+        typeof(y) _y = (y);     \
+        (void) (&_x == &_y);    \
+        _x > _y ? _x : _y; })
+
+/*! Get the absolute value of a variable. */
+#define abs(x) (((x)>0)?(x):-(x))
+
+
+/*! Defines a way to easily debug a part of a program. */
+#define DEBUG_PART(part) (DEBUG_LEVEL>=(part)) || (DEBUG_LEVEL==-(part))
+
+
+/*! Macro that tells if an argument is unused so that the compiled doesn't
+ *  complain.
+ */
+#if defined(__GNUC__)
+#  define UNUSED(x) UNUSED_ ## x __attribute__((unused))
+#else
+#  define UNUSED(x) /* Unused */ x
+#endif
+
+
+/** @} */
+
+
+#endif

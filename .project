@@ -1,0 +1,39 @@
+#
+# AUTOMATICALLY GENERATED FILE.
+#
+
+#
+#   Project description.
+#
+PROJECT_NAME=cybergod
+PROJECT_DESCRIPTION="Cyberspace administrator client program"
+PROJECT_LANGUAGE=c
+CREATION_DATE="Saturday, May 15, 2010"
+
+#
+#   Project variables.
+#
+AUTHOR="Thomas Nemeth"
+PACKAGE=cybergod
+PROGRAM=cybergod
+STATIC=n
+VERSION=1.0.0
+
+#
+#   Project base directory.
+#
+PREFIX=/usr/local
+
+#
+#   Project cross-compilation tool.
+#
+CROSS_COMPILE=
+
+
+#
+#   Project compilation flags.
+#
+USER_CFLAGS=
+USER_CPPFLAGS=
+USER_LDFLAGS=
+

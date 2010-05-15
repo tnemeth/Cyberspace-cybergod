@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Script produisant le fichier 0config.h incluant la documentation du projet.
+#
+
+INPUTFILE="$1"
+DOCFILE="$2"
+
+DOCLINE=`grep -n "##DOCUMENTATION##" $INPUTFILE | cut -d: -f1`
+ABOVE=`expr $DOCLINE - 1`
+BELOW=`expr $DOCLINE + 1`
+
+head -n $ABOVE $INPUTFILE
+cat $DOCFILE
+tail -n +$BELOW $INPUTFILE
+
