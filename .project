@@ -27,13 +27,13 @@ PREFIX=/usr/local
 #
 #   Project cross-compilation tool.
 #
-CROSS_COMPILE=
+#CROSS_COMPILE=
 
 
 #
 #   Project compilation flags.
 #
 USER_CFLAGS=
-USER_CPPFLAGS=
-USER_LDFLAGS=
+USER_CPPFLAGS=-I../cybercomms
+USER_LDFLAGS=-L../cybercomms/lib/x86 -lcybercomms
 
