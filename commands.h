@@ -21,7 +21,20 @@
  *  @{
  */
 
-/*! Structure used to define a user command. */
+
+/*! Maximum length for a command. */
+#define MAX_CMD_LEN     128
+
+
+/*! Structure used to define a user command.
+ *
+ * - the command is a string that the user has to type in order to execute the
+ *   function
+ * - the help field describe the command for online help
+ * - the option field is for options description
+ * - execute is the function to execute - it must return 0 (quit) or 1
+ *   (continue) and the data parameter is the full command line.
+ */
 typedef struct {
         char * command;                 /*!< Command to use for the function. */
         char * help;                    /*!< Online displayed help.       */
@@ -33,7 +46,7 @@ typedef struct {
 
 
 /** @cond DUPLICATE_DOCUMENTATION */
-int cli_key_pending(void);
+int cli_key_pending(int timeout);
 int cli_read_keyboard(const char *info, char *data);
 void cli_mainloop(cmdentry * commands, const char * prompt, int hist_size);
 /** @endcond */

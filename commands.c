@@ -22,6 +22,7 @@
 #include <sys/select.h>
 
 #include "xmem.h"
+#include "commands.h"
 
 static int intern_cli_cmd_help(char * data);
 static int intern_cli_cmd_quit(char * data);
@@ -34,7 +35,7 @@ static int intern_cli_cmd_quit(char * data);
 
 /*! History entry definition. */
 typedef struct {
-        char command[MAXSTRLEN];        /*!< Command to store in history. */
+        char command[MAX_CMD_LEN];        /*!< Command to store in history. */
 } histentry;
 
 
@@ -103,9 +104,9 @@ int cli_key_pending(int timeout)
  */
 int cli_read_keyboard(const char *info, char *data)
 {
-        printf("%s: ", info);
+        printf("%s> ", info);
 
-        if ((! fgets(data, MAXSTRLEN, stdin)) && feof(stdin))
+        if ((! fgets(data, MAX_CMD_LEN, stdin)) && feof(stdin))
         {
                 printf("\n");
                 return 0;
@@ -174,13 +175,16 @@ void cli_mainloop(cmdentry * commands, const char * prompt, int hist_size)
         int cmd = -1;
 
         command = commands;
-        history = xmalloc(sizeof(histentry) * hist_size);
-        memset(history, sizeof(histentry) * hist_size, 0);
+        if (hist_size > 0)
+        {
+                history = xmalloc(sizeof(histentry) * hist_size);
+                memset(history, sizeof(histentry) * hist_size, 0);
+        }
 
         while (cont)
         {
-                char data[MAXSTRLEN] = {0};
-                int i = read_keyboard(prompt, data);
+                char data[MAX_CMD_LEN] = {0};
+                int i = cli_read_keyboard(prompt, data);
                 int found = 0;
                 cmdentry * entry = internals;
 
@@ -224,7 +228,10 @@ start:
                 }
         }
 
-        free(history);
+        if (history)
+        {
+                free(history);
+        }
         history = NULL;
 }
 
