@@ -23,21 +23,64 @@
 
 #include "0config.h"
 #include "version.h"
+#include "commands.h"
+#include "param_cmds.h"
+#include "objects_cmds.h"
+
+
+int cybersock = -1;
+
+
+static int load_config(char * data)
+{
+        return 1;
+}
+
+
+static int save_config(char * data)
+{
+        return 1;
+}
+
+
+static int dump_state(char * data)
+{
+        return 1;
+}
+
+
+static int logout(char * data)
+{
+        return 0;
+}
+
+
+static cmdentry god_cmds[] = {
+        {"get",  "get a parameter from cyberspace",  "parameter",       get_parameter},
+        {"set",  "set a parameter in cyberspace",    "parameter value", set_parameter},
+        {"add",  "add an object to cyberspace",      "object-type",     add_object},
+        {"del",  "delete an object from cyberspace", NULL,              del_object},
+        {"load", "load the configuration",           "filename",        load_config},
+        {"save", "save the configuration",           "filename",        save_config},
+        {"dump", "dump the system state",            NULL,              dump_state},
+        {"exit", "exit from cyberspace",             NULL,              logout},
+        {NULL, NULL}
+};
 
 
 int main(void)
 {
-        int sock = cyberspace_connect("127.0.0.1", 2233, client_god, "Thomas");
+        cybersock = cyberspace_connect("127.0.0.1", 2233, client_god, "Neo");
 
-        if (sock < 0)
+        if (cybersock < 0)
         {
                 fprintf(stderr, "Error connecting cyberspace (%s).\n",
-                                get_error_info(sock));
+                                get_error_info(cybersock));
         }
 
-        while (1);
+        cli_mainloop(god_cmds, "cyber", 0);
 
-        message_send(sock, CMD_DISCONNECT, 1);
+        message_send(cybersock, CMD_DISCONNECT, 1);
 
         return 0;
 }
